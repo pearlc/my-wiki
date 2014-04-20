@@ -15,3 +15,15 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('/test', function()
+    {
+        return View::make('test');
+    });
+
+Route::get('/user', function()
+    {
+        return Redirect::to('user/register');
+    });
+
+Route::get('/user/register', array( 'as' => 'ddd', 'uses' => 'UserController@register'));

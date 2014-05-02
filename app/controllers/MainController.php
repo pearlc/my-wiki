@@ -9,6 +9,6 @@ class MainController extends BaseController
 {
     public function main()
     {
-        return View::make('index')->with('title', 'aaa');
+        return View::make('index');
     }
 } 

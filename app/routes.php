@@ -11,19 +11,11 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', function() { return View::make('hello'); });
 
-Route::get('/test', function()
-    {
-        return View::make('test');
-    });
+Route::get('/', array('as' => 'index', 'uses' => 'MainController@main'));
 
-Route::get('/user', function()
-    {
-        return Redirect::to('user/register');
-    });
-
-Route::get('/user/register', array( 'as' => 'ddd', 'uses' => 'UserController@register'));
+Route::get('/markuptest/{spec?}', array('as' => 'markuptest', 'uses' => 'MarkupTestController@main'));
+Route::get('/user', array( 'as' => 'user', 'uses' => 'UserController@profile'));
+Route::get('/user/profile', array( 'as' => 'user_profile', 'uses' => 'UserController@profile'));
+Route::get('/user/register', array( 'as' => 'user_register', 'uses' => 'UserController@register'));

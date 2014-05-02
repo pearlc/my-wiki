@@ -7,15 +7,17 @@
 
 class UserController extends BaseController
 {
+    public function profile()
+    {
+        return 'profile';
+    }
+
     public function register()
     {
-echo 'im in user controller';
 
-//        ini_set('display_errors', 1);
-
-        if (Sentry::check()) {
+//        if (Sentry::check()) {
 //            Redirect::to('/user/profile');
-        }
+//        }
 
         return View::make('user.register')->with('title', '사용자 등록')->with('class', 'register');
     }

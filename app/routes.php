@@ -32,6 +32,8 @@ Route::group(array('prefix' => 'user'), function() {
         Route::get('/activate/{activationCode}', array( 'as' => 'user_activate', 'uses' => 'UserController@activate'));
         Route::get('/login', array('as' => 'user_login', 'uses' => 'UserController@login'));
         Route::get('/logout', array( 'as' => 'user_logout', 'uses' => 'UserController@logout'));
+        Route::get('/delete', array( 'as' => 'user_delete', 'uses' => 'UserController@delete'));
+        Route::get('/delete_confirm', array( 'as' => 'user_delete_confirm', 'uses' => 'UserController@deleteConfirm'));
 
         Route::post('/login', array( 'as' => 'user_login_post', 'uses' => 'UserController@loginPost'));
         Route::post('/register', array( /* 'before' => 'csrf', */'as' => 'user_register_post', 'uses' => 'UserController@registerPost'));

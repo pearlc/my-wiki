@@ -193,4 +193,28 @@ class UserController extends BaseController
 
         return Redirect::route('index');
     }
+
+    public function delete()
+    {
+        Session::flash('delete_confirm', true);
+
+        return View::make('user.delete');
+    }
+
+    public function deleteConfirm()
+    {
+        if (Session::get('delete_confirm') !== true) {
+            return Redirect::route('index');
+        }
+
+        $user = Sentry::getUser();
+
+        Sentry::logout();
+
+        $user->delete();
+
+        View::share('user', null);  // 뷰에서 사용되는 $user 변수 초기화
+
+        return View::make('user.delete_confirm');
+    }
 }

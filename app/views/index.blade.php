@@ -9,6 +9,7 @@
     <li>{{ link_to_action('UserController@login', '로그인'); }} </li>
     <li>{{ link_to_action('UserController@profile', '프로필'); }} </li>
     <li>{{ link_to_action('UserController@logout', '로그아웃'); }} </li>
+    <li>{{ link_to_action('UserController@delete', '회원탈퇴'); }} </li>
 </ul>
 
 @stop

@@ -29,6 +29,7 @@ class UserController extends BaseController
 
         $rules = array(
             'email' => 'required|email|unique:users',
+            'nick_name' => 'required|unique:users|min:2|max:12|regex:/^[a-zA-Z0-9가-힣]+$/', //  : 한글, 숫자, 알파
             'password' => 'required|confirmed|min:4',
             'password_confirmation' => 'required'
         );
@@ -38,7 +39,6 @@ class UserController extends BaseController
             return Redirect::route('user_register')->withInput()->withErrors($validator);
         }
 
-
         // 유저 등록
         try
         {
@@ -46,9 +46,9 @@ class UserController extends BaseController
             $user = Sentry::register(array(
                     'email'    => Input::get('email'),
                     'password' => Input::get('password'),
+                    'nick_name' => Input::get('nick_name')
 //                    'metadata' => array(
-//                        'first_name' => Input::get('first_name'),
-//                        'last_name'  => Input::get('last_name'),
+//                        'nick_name' => Input::get('nick_name')
 //                    )
                 ));
 

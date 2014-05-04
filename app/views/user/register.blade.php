@@ -5,6 +5,7 @@
 <!-- TODO : 닉네임(optional) 하게 받는것 처리. -->
 
 {{ $errors->first('email'); }}
+{{ $errors->first('nick_name'); }}
 {{ $errors->first('password'); }}
 
 {{ Form::open(array('action' => 'UserController@registerPost', 'class' => 'form-horizontal')) }}
@@ -15,9 +16,9 @@
         </div>
     </div>
     <div class="form-group">
-        {{ Form::label('inputNickname', '닉네임', array('class' => 'col-sm-2 control-label')); }}
+        {{ Form::label('inputNickName', '닉네임', array('class' => 'col-sm-2 control-label')); }}
         <div class="col-sm-10">
-            {{ Form::text('nickname', null, array('class' => 'form-control', 'id' => 'inputNickname', 'placeholder' => '닉네임')); }}
+            {{ Form::text('nick_name', null, array('class' => 'form-control', 'id' => 'inputNickName', 'placeholder' => '닉네임')); }}
         </div>
     </div>
     <div class="form-group">

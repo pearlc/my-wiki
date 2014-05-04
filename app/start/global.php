@@ -79,3 +79,14 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+App::before(function($request)
+    {
+        /**
+         * 모든 request에 대해 user login 확인
+         */
+        $user = Sentry::getUser();
+        View::share('user', $user);
+    });
+

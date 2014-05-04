@@ -2,7 +2,7 @@
 
 class MarkupTestController extends BaseController
 {
-    public function main($spec = 'main')
+    public function index($spec = 'index')
     {
 
         return View::make('markuptest.' . $spec)->with('title', '사용자 등록');

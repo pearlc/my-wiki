@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="/">메인</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,18 +37,21 @@
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">계정 <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li>{{ link_to_route('user_register', '등록') }}</li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
+                <li><a href="#">문의하기</a></li>
+                @if (is_null($user))
+                    <li>{{ link_to_route('user_login', '로그인') }}</li>
+                    <li>{{ link_to_route('user_register', '회원가입') }}</li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ $user->email }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>{{ link_to_route('user_profile', '내정보') }}</li>
+                            <li>{{ link_to_route('user_logout', '로그아웃') }}</li>
+                            <li class="divider"></li>
+                            <li>{{ link_to_route('index', '회원탈퇴??') }}</li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

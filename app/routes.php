@@ -29,7 +29,7 @@ Route::group(array('prefix' => 'user'), function() {
         Route::get('/profile', array( 'as' => 'user_profile', 'uses' => 'UserController@profile'));
         Route::get('/welcome', array( 'as' => 'user_welcome', 'uses' => 'UserController@welcome'));
         Route::get('/register', array( 'as' => 'user_register', 'uses' => 'UserController@register'));
-        Route::get('/activate/{userId}/{activationCode}', array( 'as' => 'user_activate', 'uses' => 'UserController@activate'));
+        Route::get('/activate/{activationCode}', array( 'as' => 'user_activate', 'uses' => 'UserController@activate'));
         Route::get('/login', array('as' => 'user_login', 'uses' => 'UserController@login'));
         Route::get('/logout', array( 'as' => 'user_logout', 'uses' => 'UserController@logout'));
 

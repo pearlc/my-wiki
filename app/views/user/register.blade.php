@@ -35,14 +35,6 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <div class="checkbox">
-                {{ Form::label('cb', 'Remember me'); }}
-                {{ Form::checkbox('remember-me', null, null, array('id' => 'cb')); }}
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
             {{ Form::submit('회원가입', array('class' => 'btn btn-default')); }}
         </div>
     </div>

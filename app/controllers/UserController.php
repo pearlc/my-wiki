@@ -74,9 +74,9 @@ class UserController extends BaseController
         // TODO : 메일 발송 클래스를 별도로 분리하는게 좋은가? (로그 관리도 해야되니깐.. 먼저 monolog 가 어떻게 작동하는지 확인 필요)
         try
         {
-            Mail::send('emails.welcome', array('userId' => $user->id, 'activationCode' => $activationCode), function($message)
+            Mail::send('emails.welcome', array('activationCode' => $activationCode), function($message)
                 {
-                    $message->to(Input::get('email'))->subject('Welcome to the Foldagram!');
+                    $message->to(Input::get('email'))->subject('가입을 환영합니다!');
                 });
         }
             // TODO : 메일 발송 실패시 case by case 로 오류처리 할것
@@ -149,14 +149,14 @@ class UserController extends BaseController
         return View::make('user.welcome')->with('titie', '환영합니다');
     }
 
-    public function activate($userId, $activationCode)
+    public function activate($activationCode)
     {
         $activationPassed = false;
 
         try
         {
             // Find the user using the user id
-            $user = Sentry::findUserById($userId);
+            $user = Sentry::findUserByActivationCode($activationCode);
 
             // Attempt to activate the user
             if ($user->attemptActivation($activationCode))

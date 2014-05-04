@@ -23,6 +23,8 @@ Route::get('/markuptest/{spec?}', array('as' => 'markuptest', 'uses' => 'MarkupT
 
 Route::group(array('prefix' => 'user'), function() {
 
+        // TODO : register와 login 에 https 적용
+
         Route::get('/', array( 'as' => 'user', 'uses' => 'UserController@profile'));
         Route::get('/profile', array( 'as' => 'user_profile', 'uses' => 'UserController@profile'));
         Route::get('/welcome', array( 'as' => 'user_welcome', 'uses' => 'UserController@welcome'));

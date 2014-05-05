@@ -9,7 +9,74 @@ class UserController extends BaseController
 {
     public function profile()
     {
-        return 'profile';
+        $user = Sentry::getUser();
+
+        return View::make('user.profile', array('user' => $user));
+    }
+
+    public function profileEdit()
+    {
+        $user = Sentry::getUser();
+        return View::make('user.profile_edit', array('user' => $user));
+    }
+
+    public function profileEditPost()
+    {
+
+        $input = Input::get();
+
+        // 유효성 검사
+        $rules = array(
+            'nick_name' => 'required|unique:users|min:2|max:12|regex:/^[a-zA-Z0-9가-힣]+$/', //  : 한글, 숫자, 알파
+        );
+
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->fails()) {
+            return Redirect::route('user_profile_edit')->withInput()->withErrors($validator);
+        }
+
+        $user = Sentry::getUser();
+        $user->nick_name = $input['nick_name'];
+        $user->save();
+
+        return View::make('user.profile_edit_done');
+    }
+
+    public function passwordEdit()
+    {
+        $user = Sentry::getUser();
+
+        return View::make('user.password_edit', array('user' => $user));
+    }
+
+    public function passwordEditPost()
+    {
+        $input = Input::get();
+
+        // old 패스워드 검사
+        $user = Sentry::getUser();
+        if (!$user->checkPassword($input['old_password'])) {
+            return Redirect::route('user_password_edit')->withInput()->withErrors(array('message' => '현재 비밀번호가 맞지 않습니다'));
+        }
+
+        // 새 패스워드 등록
+        $rules = array(
+            'password' => 'required|confirmed|min:4',
+            'password_confirmation' => 'required'
+        );
+
+        $input = Input::get();
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->fails()) {
+            return Redirect::route('user_password_edit')->withInput()->withErrors($validator);
+        }
+
+        $user->password = $input['password'];
+        $user->save();
+
+        return View::make('user.password_edit_done');
     }
 
     public function register()

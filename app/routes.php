@@ -33,6 +33,7 @@ Route::group(array('prefix' => 'user'), function() {
 
         Route::get('/', array('as' => 'user', function() { return Redirect::route('user_profile');}));
         Route::get('/profile', array('as' => 'user_profile', 'uses' => 'UserController@profile'));
+        Route::get('/profile/edit', array('as' => 'user_profile_edit', 'uses' => 'UserController@profileEdit'));
         Route::get('/welcome', array('as' => 'user_welcome', 'uses' => 'UserController@welcome'));
         Route::get('/register', array('as' => 'user_register', 'uses' => 'UserController@register'));
         Route::get('/activate/{activationCode}', array('as' => 'user_activate', 'uses' => 'UserController@activate'));
@@ -42,9 +43,12 @@ Route::group(array('prefix' => 'user'), function() {
         Route::get('/delete_confirm', array('as' => 'user_delete_confirm', 'uses' => 'UserController@deleteConfirm'));
         Route::get('/forgot_password', array('as' => 'user_forgot_password', 'uses' => 'UserController@forgotPassword'));
         Route::get('/password_reset/{payload}', array('as' => 'user_password_reset', 'uses' => 'UserController@passwordReset'));
+        Route::get('/password_edit', array('as' => 'user_password_edit', 'uses' => 'UserController@passwordEdit'));
 
         Route::post('/login', array('as' => 'user_login_post', 'uses' => 'UserController@loginPost'));
         Route::post('/register', array( /* 'before' => 'csrf', */'as' => 'user_register_post', 'uses' => 'UserController@registerPost'));
         Route::post('/forgot_password', array('as' => 'user_forgot_password_post', 'uses' => 'UserController@forgotPasswordPost'));
         Route::post('/password_reset', array('as' => 'user_password_reset_post', 'uses' => 'UserController@passwordResetPost'));
+        Route::post('/password_edit', array('as' => 'user_password_edit_post', 'uses' => 'UserController@passwordEditPost'));
+        Route::post('/profile/edit', array('as' => 'user_profile_edit_post', 'uses' => 'UserController@profileEditPost'));
     });

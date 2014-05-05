@@ -5,10 +5,12 @@
  * Time: 오후 8:21
  */
 
-class WikiController {
+class WikiController extends BaseController{
 
     public function index()
     {
-        // 목록 보여주기
+        // 위키 메인
+
+        return View::make('wiki.index');
     }
 } 

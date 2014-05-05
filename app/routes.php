@@ -19,6 +19,8 @@
 
 // TODO : 라우팅 실패시 404 페이지로 리디렉트 되도록
 
+// TODO : validator 오류메시지 한글화
+
 Route::filter('sentryAuth', function() {
         if (!Sentry::getUser()) {
             return Redirect::route('index');
@@ -72,4 +74,9 @@ Route::group(array('prefix' => 'user'), function() {
                 Route::post('/forgot_password', array('as' => 'user_forgot_password_post', 'uses' => 'UserController@forgotPasswordPost'));
                 Route::post('/password_reset', array('as' => 'user_password_reset_post', 'uses' => 'UserController@passwordResetPost'));
             });
+    });
+
+// Wiki
+Route::group(array('prefix' => 'wiki'), function() {
+        Route::get('/', array('as' => 'wiki', 'uses' => 'WikiController@index'));
     });

@@ -27,6 +27,8 @@ class UserController extends BaseController
 
         // TODO : activate 를 기본적으로 사용하는데, 사용자가 오랫동안 activate 하지 않은 상태에서 다시 해당 메일로 가입하려고 할때, 뭐라고 보여줘야 되는가? <- 별로 안중요함. 신경 안써도 될듯 (어짜피 이메일이라서 중복이라면 본인이 이상하게 생각할듯)
 
+        // TODO : 취약한 비밀번호 입력시 reject 처리? (정책 정하기)
+
         $rules = array(
             'email' => 'required|email|unique:users',
             'nick_name' => 'required|unique:users|min:2|max:12|regex:/^[a-zA-Z0-9가-힣]+$/', //  : 한글, 숫자, 알파
@@ -82,7 +84,6 @@ class UserController extends BaseController
             // TODO : 메일 발송 실패시 case by case 로 오류처리 할것
         catch (Exception $e)
         {
-
             echo '에러 발생';
         }
 
@@ -216,5 +217,155 @@ class UserController extends BaseController
         View::share('user', null);  // 뷰에서 사용되는 $user 변수 초기화
 
         return View::make('user.delete_confirm');
+    }
+
+    public function forgotPassword()
+    {
+        return View::make('user.forgot_password');
+    }
+
+    public function forgotPasswordPost()
+    {
+        $rules = array(
+            'email' => 'email'
+        );
+
+        $input = Input::get();
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            return Redirect::route('user_forgot_password')->withInput()->withErrors($validator);
+        }
+
+        // TODO : 등록되있지 않은 메일이 입력됬을때 error 메시지와 함께 back 시켜야함
+
+        // TODO : 메일에 포함된 '초기화' 버튼이 현재처럼 되도 문제 없을지 확인 (현재 사용 방식 : userId 와 passwordCode를 base64 encoding 해서 링크에 사용될 문자열 생성)
+
+        try
+        {
+            // Find the user using the user email address
+            $user = Sentry::findUserByLogin($input['email']);
+
+            // Get the password reset code
+            $resetCode = $user->getResetPasswordCode();
+
+            $payload = base64_encode($user->id.'-'.$resetCode);
+
+            // Now you can send this code to your user via email for example.
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            return Redirect::route('user_forgot_password')->withInput()->withErrors(array('message' => 'User was not found'));
+        }
+
+        // 메일 발송
+        try
+        {
+            Mail::send('emails.password_reset', array('payload' => $payload), function($message)
+                {
+                    $message->to(Input::get('email'))->subject('비밀번호 재설정 메일입니다');
+                });
+        }
+            // TODO : 메일 발송 실패시 Exception 의 case by case 별로 오류처리 할것
+        catch (Exception $e)
+        {
+            echo '에러 발생';
+        }
+
+        return View::make('user.password_reset_mail_sent')->with('email', $input['email']);
+    }
+
+    public function passwordReset($payload)
+    {
+
+        list($userId, $resetCode) = explode('-', base64_decode($payload));
+
+
+        $validRequest = false;
+
+
+        // 여기서 폼을 보여주고 새로운 password 를 입력받아야함
+
+        try
+        {
+            $user = Sentry::findUserById($userId);
+
+            if ($user->checkResetPasswordCode($resetCode)) {
+                //
+
+                $validRequest = true;
+
+            } else {
+                // 유효하지 않은 reset code
+
+                throw new Exception();
+
+            }
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            echo 'User was not found.';
+        }
+        catch (Exception $e)
+        {
+            echo '오류가 발생했습니다.';
+        }
+
+        if (!$validRequest) {
+            return Redirect::route('user_forgot_password');
+        }
+
+        return View::make('user.password_reset', array('user' => $user, 'reset_code' => $resetCode));
+    }
+
+    public function passwordResetPost()
+    {
+        $passwordReseted = false;
+
+        $rules = array(
+            'password' => 'required|confirmed|min:4',
+            'password_confirmation' => 'required'
+        );
+
+        $input = Input::get();
+
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            return Redirect::route('user_password_reset')->withInput()->withErrors($validator);
+        }
+
+        try
+        {
+            // Find the user using the user id
+            $user = Sentry::findUserById($input['user_id']);
+
+            // Check if the reset password code is valid
+            if ($user->checkResetPasswordCode($input['reset_code']))
+            {
+                // Attempt to reset the user password
+                if ($user->attemptResetPassword($input['reset_code'], $input['password']))
+                {
+                    // Password reset passed
+                    $passwordReseted = true;
+                }
+                else
+                {
+                    // Password reset failed
+                }
+            }
+            else
+            {
+                // The provided password reset code is Invalid
+            }
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            echo 'User was not found.';
+        }
+
+        if (!$passwordReseted) {
+            return View::make('user.password_reset_failed');
+        }
+
+        return View::make('user.password_reset_done');
     }
 }

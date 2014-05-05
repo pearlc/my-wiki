@@ -81,7 +81,7 @@ App::down(function()
 require app_path().'/filters.php';
 
 
-App::before(function($request)
+App::before(function()
     {
         /**
          * 모든 request에 대해 user login 확인
@@ -90,3 +90,18 @@ App::before(function($request)
         View::share('user', $user);
     });
 
+App::before(function()
+    {
+        /**
+         * gnb 메뉴 하이라이트 설정
+         */
+        $parsed = parse_url(Request::url());
+        $path = isset($parsed['path'])?$parsed['path']:'';
+        $currentNavBarItem = '';
+
+        if (strpos($path, '/wiki') === 0 ) {
+            $currentNavBarItem = 'wiki';
+        }
+
+        View::share('currentNavBarItem', $currentNavBarItem);
+    });

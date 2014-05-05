@@ -14,9 +14,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">Wiki</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
+                <li id="navbar-item-wiki" {{ ($currentNavBarItem === 'wiki')?'class="active"':'' }}>{{ link_to_route('wiki', '위키'); }}</li>
+                <li id="navbar-item-link" {{ ($currentNavBarItem === 'link')?'class="active"':'' }}>{{ link_to_route('index', 'Link'); }}</li>
+                <li id="navbar-item-another-link"><a href="#">Link</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -48,7 +48,7 @@
                             <li>{{ link_to_route('user_profile', '내정보') }}</li>
                             <li>{{ link_to_route('user_logout', '로그아웃') }}</li>
                             <li class="divider"></li>
-                            <li>{{ link_to_route('index', '회원탈퇴??') }}</li>
+                            <li>{{ link_to_route('user_delete', '회원탈퇴') }}</li>
                         </ul>
                     </li>
                 @endif

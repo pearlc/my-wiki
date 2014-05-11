@@ -31,4 +31,9 @@ class MarkupTestController extends BaseController
         print_r($_SERVER);
         return '';
     }
+
+    public function editor()
+    {
+        return View::make('markuptest.editor', array('title' => 'CKeditor 테스트'));
+    }
 }

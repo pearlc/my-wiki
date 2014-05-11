@@ -4,6 +4,7 @@
 
 <ul>
     <li>{{ link_to_action('MarkupTestController@index', '마크업 메인'); }}</li>
+    <li>{{ link_to_action('MarkupTestController@editor', '에디터 테스트'); }}</li>
     <li>{{ link_to_route('markuptest_email', '테스트 메일 발송'); }}</li>
     <li>---</li>
     <li>{{ link_to_action('UserController@register', '회원가입', ['param' => 5], ['attribute' => 7]); }} </li>

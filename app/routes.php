@@ -41,6 +41,7 @@ Route::get('/', array('as' => 'index', 'uses' => 'MainController@index'));
 Route::get('/markuptest', array('as' => 'markuptest', 'uses' => 'MarkupTestController@index'));
 Route::get('/markuptest/email', array('as' => 'markuptest_email', 'uses' => 'MarkupTestController@sendEmail'));
 Route::get('/markuptest/client_info', array('as' => 'markuptest_client_info', 'uses' => 'MarkupTestController@clientInfo'));
+Route::get('/markuptest/editor', array('as' => 'markuptest_editor', 'uses' => 'MarkupTestController@editor'));
 
 // User
 Route::group(array('prefix' => 'user'), function() {

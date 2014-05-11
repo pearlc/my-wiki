@@ -22,35 +22,44 @@ var imagemin = require('gulp-imagemin');
 var less = require('gulp-less');
 var minify = require('gulp-minify-css');
 
-var sassDir = 'app/assets/sass';
-var targetCssDir = 'public/assets/css';
-
-var path = {
+var srcPath = {
     css: ['app/assets/bootstrap-3.1.1/dist/css/bootstrap.min.css', 'app/assets/themes/slate/bootstrap.css', 'app/assets/css/**/*.css'],
-    scripts: ['app/assets/js/**/*.js', 'app/assets/bootstrap-3.1.1/dist/js/bootstrap.min.js']
+    scripts: ['app/assets/js/**/*.js', 'app/assets/bootstrap-3.1.1/dist/js/bootstrap.min.js'],
+    ckeditor: 'app/assets/ckeditor-4.4.0/**/*.*',
+    jshint: 'app/assets/js/**/*.js',
+    images: 'app/assets/images/**/*',
+    phpunit: 'app/**/*.php'
+}
+
+var destPath = {
+    css: 'public/assets/css',
+    scripts: 'public/assets/js/',
+    ckeditor: 'public/assets/ckeditor',
+    images: 'public/assets/images'
 }
 
 //gulp.task('less', function() {
-//    return gulp.src(path.less)
+//    return gulp.src(srcPath.less)
 //        .pipe(less())
 //        .pipe(gulp.dest('public/css'));
 //});
 
+
 gulp.task('css', function() {
 
-    return gulp.src(path.css)
+    return gulp.src(srcPath.css)
         .pipe(autoprefix('last 10 version'))
         .pipe(concat('all.css'))
-        .pipe(gulp.dest(targetCssDir))
+        .pipe(gulp.dest(destPath.css))
         .pipe(concat('all.min.css'))
         .pipe(minify({keepSpecialComments: 0}))
-        .pipe(gulp.dest(targetCssDir))
+        .pipe(gulp.dest(destPath.css))
         .pipe(notify('CSS compiled, prefixed, and minified'));
 
 //    return gulp.src(sassDir + '/main.sass')
 //        .pipe(sass({ style: 'compressed' }).on('error', gutil.log))
 //        .pipe(autoprefix('last 10 version'))
-//        .pipe(gulp.dest(targetCssDir))
+//        .pipe(gulp.dest(destPath.css))
 //        .pipe(notify('CSS compiled, prefixed, and minified'));
 });
 
@@ -63,50 +72,43 @@ gulp.task('phpunit', function() {
 
 
 gulp.task('jshint', function() {
-    gulp.src('app/assets/js/**/*.js')
+    gulp.src(srcPath.jshint)
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 
-gulp.task('imagemin', function() {
-    var imgSrc = 'app/assets/images/**/*',
-        imgDst = 'public/assets/images';
-
-    gulp.src(imgSrc)
-        .pipe(changed(imgDst))
-        .pipe(imagemin())
-        .pipe(gulp.dest(imgDst));
+gulp.task('images', function() {
+    gulp.src(srcPath.images)
+        .pipe(changed(destPath.images))
+        .pipe(imagemin().on('error', gutil.log))
+        .pipe(gulp.dest(destPath.images));
 });
-
 
 
 gulp.task('scripts', function() {
-
-    gulp.src(path.scripts)
+    gulp.src(srcPath.scripts)
         .pipe(concat('all.js'))      // 일단 concat 만 실행하고 raw 파일 출력
-        .pipe(gulp.dest('public/assets/js/'))
+        .pipe(gulp.dest(destPath.scripts))
         .pipe(concat('all.min.js'))
         .pipe(stripDebug())
         .pipe(uglify())
-        .pipe(gulp.dest('public/assets/js/'));  // stripDebug, uglify 실행후 prod 버전 출력
-
-//    gulp.src(['./src/scripts/lib.js','./src/scripts/*.js'])
-//        .pipe(concat('script.js'))
-//        .pipe(stripDebug())
-//        .pipe(uglify())
-//        .pipe(gulp.dest('./build/scripts/'));
+        .pipe(gulp.dest(destPath.scripts));  // stripDebug, uglify 실행후 prod 버전 출력
 });
 
+
+gulp.task('editor', function() {
+    gulp.src(srcPath.ckeditor)
+        .pipe(gulp.dest(destPath.ckeditor));
+});
 
 
 gulp.task('watch', function() {
-    gulp.watch(path.css, ['css']);
-
-    gulp.watch(path.scripts, ['scripts']);
-
-    gulp.watch('app/**/*.php', ['phpunit']);
+    gulp.watch(srcPath.css, ['css']).on('error', gutil.log);    // 디렉토리 이름이 바뀌면 특정 상황에서 오류 뱉어냄
+    gulp.watch(srcPath.scripts, ['scripts']).on('error', gutil.log);  // 디렉토리 이름이 바뀌면 특정 상황에서 오류 뱉어냄
+    gulp.watch(srcPath.images, ['images']).on('error', gutil.log);  // 디렉토리 이름이 바뀌면 특정 상황에서 오류 뱉어냄
+//    gulp.watch(srcPath.phpunit, ['phpunit']);
 });
 
 
-gulp.task('default', ['css', 'scripts', 'phpunit', 'watch']);
+gulp.task('default', ['css', 'scripts', 'images', /* 'phpunit', */ 'watch']);

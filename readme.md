@@ -5,3 +5,5 @@
 ## sentry migration 실행
 
 php artisan migrate --package=cartalyst/sentry
+
+테스트 수정입니다

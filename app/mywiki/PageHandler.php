@@ -77,7 +77,7 @@ class PageHandler {
         $page->is_redirected = 0;
         $page->is_new = 1;
         $page->len = $len;
-        $page->random = 0;  // TODO : 꼭 필요한가? 걍 실시간 랜덤 번호 생성해서 id에 가장 근접한애 뽑으면 될거 같은데
+        $page->random = 0;  // TODO : page 테이블의 random 필드가 꼭 필요한 필드인가? 걍 실시간 랜덤 번호 생성해서 id에 가장 근접한애 뽑으면 될거 같은데
         //$page->touched_at = '';   // TODO : 생성시 제대로 update 되는지 확인
 
         $page->save();
@@ -94,13 +94,11 @@ class PageHandler {
         $revision->len = $len;
         $revision->sha1 = $sha1;
 
-
-
         // page_changes 에 entry 추가
         $pageChange = new PageChange();
         $pageChange->page()->associate($page);
         if ($user !== null) $pageChange->user()->associate($user);
-        $pageChange->namespace = Page::NS_MAIN;
+        $pageChange->namespace = Page::NAMESPACE_MAIN;
         $pageChange->title = $title;
         $pageChange->comment = '';  // TODO : 미구현
         $pageChange->bot = '';  // TODO : 미구현
@@ -119,7 +117,14 @@ class PageHandler {
 
 
         // 사진, 리소스등을 사용했다면 관련 db 업데이트
-
+        /**
+         *
+         * 외부링크 : [http://naver.com 외부링크 제목]
+         * 내부링크 : [[문서제목]]
+         * 이미지 : <img>
+         * 기타 위젯 : [[[ ]]] ??
+         *
+         */
 
         // page 저장
     }

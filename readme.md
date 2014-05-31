@@ -57,3 +57,6 @@ http://nodejs.org/download/
 define('MY_WIKI_EMAIL_ACCOUNT', '');
 define('MY_WIKI_EMAIL_PASSWORD','');
 ```
+
+## gulp 실행
+`$ gulp`

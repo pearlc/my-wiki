@@ -47,3 +47,13 @@ http://nodejs.org/download/
 ## my-wiki db migration 
 1. my-wiki 관련 db migration 명령어 실행 : php artisan migrate
 
+
+## 이메일 발송에 사용될 계정 id / pw 등록
+1. php.ini 파일의 include_path 경로에 'my-wiki-classified.php' 파일 생성
+2. 아래와 같이 변수 설정
+
+```php
+<?php
+define('MY_WIKI_EMAIL_ACCOUNT', '');
+define('MY_WIKI_EMAIL_PASSWORD','');
+```

@@ -51,7 +51,7 @@ class Page extends Eloquent {
     const NAMESPACE_FILE = 6;
     const NAMESPACE_FILE_TALK = 7;
 
-    protected $fillable = ['id', 'namespace', 'title', 'counter', 'is_redirected', 'is_new', 'latest_revision_id', 'len', 'random', 'touched_at'];
+    protected $fillable = ['id', 'namespace', 'title', 'counter', 'is_redirected', 'is_new', 'latest_revision_id', 'bytes', 'random', 'touched_at'];
 
     protected static $validatorErrors;
 

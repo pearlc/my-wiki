@@ -22,7 +22,7 @@ class CreateRevisionTable extends Migration {
             $table->integer('user_id')->unsigned()->nullable();
             $table->string('ip', 15);
             $table->tinyInteger('deleted')->unsigned();
-            $table->integer('len')->unsigned();
+            $table->integer('bytes')->unsigned();
             $table->integer('parent_revision_id')->unsigned()->nullable();
             $table->string('sha1', 32);
             $table->timestamps();

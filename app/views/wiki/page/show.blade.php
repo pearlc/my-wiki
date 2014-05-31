@@ -2,10 +2,12 @@
 
 @section('main')
 
-<h1>{{{ $title }}}</h1>
+<h1>{{{ $page['title'] }}}</h1>
+
+<span>{{ link_to_route('wiki.page.edit', '수정하기', ['title' => $page['title']]) }}</span>
 
 <p>
-    내용
+    {{ $revision['text'] }}
 </p>
 
 @stop

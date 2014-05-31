@@ -22,7 +22,7 @@ class CreatePagesTable extends Migration {
                 $table->tinyInteger('is_redirected')->unsigned();
                 $table->tinyInteger('is_new')->unsigned();
                 $table->integer('latest_revision_id')->unsigned();
-                $table->integer('len')->unsigned();
+                $table->integer('bytes')->unsigned();
                 $table->double('random', 15, 8)->unsigned();
                 $table->timestamp('touched_at');
                 $table->timestamps();
@@ -31,8 +31,8 @@ class CreatePagesTable extends Migration {
                 $table->index('created_at');
                 $table->index(array('namespace', 'title'));
                 $table->index('random');
-                $table->index('len');
-                $table->index(array('is_redirected', 'namespace', 'len'));
+                $table->index('bytes');
+                $table->index(array('is_redirected', 'namespace', 'bytes'));
             });
 	}
 

@@ -24,8 +24,8 @@ class CreatePageChangesTable extends Migration {
             $table->tinyInteger('bot')->unsigned();
             $table->tinyInteger('type')->unsigned();
             $table->string('ip', 15);
-            $table->integer('old_len')->unsigned();
-            $table->integer('new_len')->unsigned();
+            $table->integer('old_bytes')->unsigned();
+            $table->integer('new_bytes')->unsigned();
             $table->tinyInteger('deleted')->unsigned();
             $table->timestamps();
 

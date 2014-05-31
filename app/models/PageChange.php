@@ -17,7 +17,7 @@ class PageChange extends Eloquent {
     const PC_EXTERNAL = 5;
 
 
-    protected $fillable = ['id', 'page_id', 'user_id', 'namespace', 'title', 'comment', 'bot', 'type', 'ip', 'old_len', 'new_len', 'deleted'];
+    protected $fillable = ['id', 'page_id', 'user_id', 'namespace', 'title', 'comment', 'bot', 'type', 'ip', 'old_bytes', 'new_bytes', 'deleted'];
 
     /**
      *

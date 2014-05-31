@@ -4,16 +4,19 @@
 
 <h1>검색 결과</h1>
 
-<p>
-    문서가 있으면 : 바로가기 링크
-</p>
+@if (!is_null($page))
+    <p>
+        '{{{ $keyword }}}' 문서가 존재합니다 -> {{ link_to_route('wiki.page.show', '바로가기', ['title' => $page['title']]) }}
+    </p>
+@else
+    <p>
+        '{{{ $keyword }}}' 라는 이름의 문서가 존재하지 않습니다 -> {{ link_to_route('wiki.page.create', '생성하기', ['title' => $keyword]) }}
+    </p>
+@endif
+
 
 <p>
-    문서가 없으면 : 문서를 새로 만드시겠습니까? : {{ link_to_route('wiki.page.create', ' --> 생성하기', ['title' => $keyword]) }}
-</p>
-
-<p>
-    검색어와 연관된 문서들
+    검색 결과
 </p>
 
 @stop

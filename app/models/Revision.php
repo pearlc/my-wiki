@@ -9,7 +9,7 @@
 
 class Revision extends Eloquent {
 
-    protected $fillable = ['id', 'page_id', 'text', 'comment', 'user_id', 'ip', 'deleted', 'len', 'parent_revision_id', 'sha1'];
+    protected $fillable = ['id', 'page_id', 'text', 'comment', 'user_id', 'ip', 'deleted', 'bytes', 'parent_revision_id', 'sha1'];
 
     public function page()
     {

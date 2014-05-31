@@ -81,7 +81,7 @@ return array(
 	|
 	*/
 
-	'username' => 'gtaforumkr@gmail.com',
+	'username' => MY_WIKI_EMAIL_ACCOUNT,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return array(
 	|
 	*/
 
-	'password' => '',
+	'password' => MY_WIKI_EMAIL_PASSWORD,
 
 	/*
 	|--------------------------------------------------------------------------

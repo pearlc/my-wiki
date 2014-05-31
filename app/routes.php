@@ -43,6 +43,16 @@ Route::get('/markuptest/email', array('as' => 'markuptest_email', 'uses' => 'Mar
 Route::get('/markuptest/client_info', array('as' => 'markuptest_client_info', 'uses' => 'MarkupTestController@clientInfo'));
 Route::get('/markuptest/editor', array('as' => 'markuptest_editor', 'uses' => 'MarkupTestController@editor'));
 
+// Wiki
+Route::group(array('prefix' => 'wiki'), function() {
+    Route::get('/', array('as' => 'wiki', 'uses' => 'WikiController@index'));
+
+    Route::get('page/search', ['as' => 'wiki.page.search', 'uses' => 'WikiPageController@search']);
+    Route::get('page/recent', ['as' => 'wiki.page.recent', 'uses' => 'WikiPageController@recent']);
+    Route::resource('page', 'WikiPageController');
+
+});
+
 // User
 Route::group(array('prefix' => 'user'), function() {
 
@@ -77,7 +87,3 @@ Route::group(array('prefix' => 'user'), function() {
             });
     });
 
-// Wiki
-Route::group(array('prefix' => 'wiki'), function() {
-        Route::get('/', array('as' => 'wiki', 'uses' => 'WikiController@index'));
-    });

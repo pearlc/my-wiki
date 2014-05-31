@@ -16,24 +16,23 @@ class CreatePagesTable extends Migration {
             {
                 // fields
                 $table->increments('id');
-                $table->integer('user')->unsigned();
                 $table->integer('namespace')->unsigned();
                 $table->string('title');
-                $table->string('comment');
-                $table->tinyInteger('bot')->unsigned();
-                $table->tinyInteger('type')->unsigned();
-                $table->string('ip', 15);
-                $table->integer('old_len')->unsigned();
-                $table->integer('new_len')->unsigned();
-                $table->tinyInteger('deleted')->unsigned();
+                $table->integer('counter')->unsigned();
+                $table->tinyInteger('is_redirected')->unsigned();
+                $table->tinyInteger('is_new')->unsigned();
+                $table->integer('latest_revision_id')->unsigned();
+                $table->integer('len')->unsigned();
+                $table->double('random', 15, 8)->unsigned();
+                $table->timestamp('touched_at');
                 $table->timestamps();
 
                 // indexes
                 $table->index('created_at');
                 $table->index(array('namespace', 'title'));
-                $table->index('ip');
-                $table->index(array('namespace', 'created_at'));
-                $table->index(array('namespace', 'user'));
+                $table->index('random');
+                $table->index('len');
+                $table->index(array('is_redirected', 'namespace', 'len'));
             });
 	}
 

@@ -16,22 +16,22 @@ class CreateRevisionTable extends Migration {
 		{
             // fields
             $table->increments('id');
-            $table->integer('page')->unsigned();
+            $table->integer('page_id')->unsigned();
             $table->text('text');
             $table->string('comment');
-            $table->integer('user')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->string('ip', 15);
             $table->tinyInteger('deleted')->unsigned();
             $table->integer('len')->unsigned();
-            $table->integer('parent_revision')->unsigned();
+            $table->integer('parent_revision_id')->unsigned()->nullable();
             $table->string('sha1', 32);
             $table->timestamps();
 
             // indexes
             $table->index('created_at');
-            $table->index(array('page', 'created_at'));
-            $table->index(array('user', 'created_at'));
-            $table->index(array('page', 'user', 'created_at'));
+            $table->index(array('page_id', 'created_at'));
+            $table->index(array('user_id', 'created_at'));
+            $table->index(array('page_id', 'user_id', 'created_at'));
 		});
 	}
 

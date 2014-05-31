@@ -111,4 +111,4 @@ gulp.task('watch', function() {
 });
 
 
-gulp.task('default', ['css', 'scripts', 'images', /* 'phpunit', */ 'watch']);
+gulp.task('default', ['css', 'scripts', 'images', 'editor', /* 'phpunit', */ 'watch']);

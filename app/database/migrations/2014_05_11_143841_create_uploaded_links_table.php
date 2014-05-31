@@ -14,7 +14,7 @@ class CreateUploadedLinksTable extends Migration {
 	{
 		Schema::create('uploaded_links', function(Blueprint $table)
 		{
-			$table->integer('page')->unsigned();
+			$table->integer('page_id')->unsigned();
 			$table->integer('uploaded_file')->unsigned();
 		});
 	}

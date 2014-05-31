@@ -15,11 +15,11 @@ class CreateExternalLinksTable extends Migration {
 		Schema::create('external_links', function(Blueprint $table)
 		{
             // fields
-			$table->integer('page')->unsigned();
+			$table->integer('page_id')->unsigned();
             $table->string('url');
 
             // indexes
-            $table->unique(array('page', 'url'));
+            $table->unique(array('page_id', 'url'));
 		});
 	}
 

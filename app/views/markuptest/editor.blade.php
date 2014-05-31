@@ -1,8 +1,10 @@
 @extends('layouts.layouts')
 
-@section('main')
+@section('scripts')
+{{ HTML::script('/assets/ckeditor/ckeditor.js'); }}
+@stop
 
-<script src="/assets/ckeditor/ckeditor.js"></script>
+@section('main')
 
 <p>editor 테스트</p>
 <p>

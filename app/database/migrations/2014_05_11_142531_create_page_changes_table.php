@@ -16,7 +16,8 @@ class CreatePageChangesTable extends Migration {
 		{
             // fields
             $table->increments('id');
-            $table->integer('user')->unsigned();
+            $table->integer('page_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('namespace')->unsigned();
             $table->string('title');
             $table->string('comment');
@@ -30,11 +31,12 @@ class CreatePageChangesTable extends Migration {
 
 
             // indexes
+            $table->index('page_id');
             $table->index('created_at');
             $table->index(array('namespace', 'title'));
             $table->index('ip');
             $table->index(array('namespace', 'created_at'));
-            $table->index(array('namespace', 'user'));
+            $table->index(array('namespace', 'user_id'));
         });
 	}
 

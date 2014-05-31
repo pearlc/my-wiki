@@ -10,7 +10,6 @@ class WikiController extends BaseController{
     public function index()
     {
         // 위키 메인
-
         return View::make('wiki.index');
     }
 } 

@@ -30,12 +30,14 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            {{ Form::open(['route' => ['wiki.page.search'], 'class' => 'navbar-form navbar-left', 'role' => 'search', 'method' => 'get']); }}
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    {{ Form::text('keyword', null, ['class' => 'form-control', 'placeholder' => '검색어를 입력하세요']); }}
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+                {{ Form::button('검색', ['type' => 'submit', 'class' => 'btn btn-default']); }}
+<!--                <button type="submit" class="btn btn-default">Submit</button>-->
+<!--            </form>-->
+            {{ Form::close(); }}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">문의하기</a></li>
                 @if (is_null($user))

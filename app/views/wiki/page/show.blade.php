@@ -2,6 +2,10 @@
 
 @section('main')
 
-<h1>위키 index</h1>
+<h1>{{{ $title }}}</h1>
+
+<p>
+    내용
+</p>
 
 @stop

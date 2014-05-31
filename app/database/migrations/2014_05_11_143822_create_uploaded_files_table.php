@@ -53,12 +53,12 @@ class CreateUploadedFilesTable extends Migration {
             $table->string('major_mime', 30);
             $table->string('minor_mime', 30);
             $table->string('description', 200);
-            $table->integer('user')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->string('sha1', 32);
 			$table->timestamps();
 
             // indexes
-            $table->index('user', 'created_at');
+            $table->index('user_id', 'created_at');
             $table->index('size');
             $table->index('created_at');
             $table->index(array('type', 'major_mime', 'minor_mime'));

@@ -85,7 +85,7 @@ class UserController extends BaseController
             return Redirect::route('user_profile');
         }
 
-        return View::make('user.register')->with('title', '회원가입')->with('class', 'register');
+        return View::make('user.register')->with('htmlTitle', '회원가입')->with('class', 'register');
     }
 
     public function registerPost()
@@ -248,10 +248,10 @@ class UserController extends BaseController
 
         if ($activationPassed) {
             // passed
-            return View::make('user.activate')->with('title', '메일 인증 성공')->with('activationPassed', true);
+            return View::make('user.activate')->with('htmlTitle', '메일 인증 성공')->with('activationPassed', true);
         } else {
             // failed
-            return View::make('user.activate')->with('title', '메일 인증')->with('activationPassed', false)->with('failedMessage', $failedMessage);
+            return View::make('user.activate')->with('htmlTitle', '메일 인증')->with('activationPassed', false)->with('failedMessage', $failedMessage);
         }
     }
 

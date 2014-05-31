@@ -16,6 +16,7 @@
     <li>{{ link_to_action('UserController@forgotPassword', '비밀번호 분실'); }} </li>
     <li>---</li>
     <li>{{ link_to_route('wiki', '위키'); }}</li>
+    <li>{{ link_to_route('wiki.page.create', '위키 글쓰기'); }}</li>
 </ul>
 
 @stop

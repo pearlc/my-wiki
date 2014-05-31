@@ -141,6 +141,8 @@ class UserController extends BaseController
 
 
         // TODO : 메일 발송 클래스를 별도로 분리하는게 좋은가? (로그 관리도 해야되니깐.. 먼저 monolog 가 어떻게 작동하는지 확인 필요)
+
+        // TODO : 메일 발송 실패한 경우에 db에는 남아있는데, 인증메일이 발송되지 않아서 유저가 가입 완료를 못하는 상황이 발생 (기존 메일 계정으로 재가입도 안됨) 이거 해결할것
         try
         {
             Mail::send('emails.welcome', array('activationCode' => $activationCode), function($message)
@@ -151,7 +153,7 @@ class UserController extends BaseController
             // TODO : 메일 발송 실패시 case by case 로 오류처리 할것
         catch (Exception $e)
         {
-            echo '에러 발생';
+            echo '에러 발생. 사이트 관리자에게 문의하세요';
         }
 
         return Redirect::route('user_welcome');

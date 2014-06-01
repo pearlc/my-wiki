@@ -60,3 +60,15 @@ define('MY_WIKI_EMAIL_PASSWORD','');
 
 ## gulp 실행
 `$ gulp`
+
+## Environment 설정법
+1. 아래 3개 환경이 있다고 가정 (개별 환경 추가 가능)
+  1. development <- default
+  2. testing
+  3. production
+2. environment 변수를 통해 판단하므로 아래와 같이 apache 설정을 해주거나
+
+	`SetEnv ENV development`
+3. 이렇게 php 코드로 선언해주어야함
+
+  `$_ENV["FOO"] = 'bar';`

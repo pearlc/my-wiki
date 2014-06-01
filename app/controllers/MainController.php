@@ -9,8 +9,6 @@ class MainController extends BaseController
 {
     public function index()
     {
-
-//        exit;
         return View::make('index');
     }
 } 

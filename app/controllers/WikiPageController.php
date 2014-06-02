@@ -167,4 +167,25 @@ class WikiPageController extends \BaseController {
         return View::make('wiki.page.recent');
     }
 
+    public function history($title)
+    {
+        // TODO : sanitizeForTitle 쓰는 부분이 많은데, '유효성 검사' 후 '유효하지 않으면 redirect' 까지 함수로 빼도 될듯
+        $title = Page::sanitizeForTitle($title);
+
+        if ($title === null || $title === '') {
+            return Redirect::route('wiki.page.recent');
+        }
+
+        $page = Page::where('title', $title)->first();
+
+        if ($page === null) {
+            // TODO : 문서 이름이 바뀌어서 올바른 article을 찾지 못한 경우에는 별도의 메시지 뿌려줘야함 (예 : '문서의 경로가 변경되었을수 있습니다.' 하고 예상 문서 추천) -> 근데 보통 문서 일므을 바꾸면 포워딩을 할텐데.. 포워딩 안되도록 급격하게 문서 이름을 바꿔야 하는 경우가 있나?
+            return Redirect::route('wiki.page.search', ['keyword' => $title]);
+        }
+
+        $revisions = Revision::where('page_id', $page->id)->get();
+
+        return View::make('wiki.page.history', ['page' => $page, 'revisions' => $revisions]);
+    }
+
 }

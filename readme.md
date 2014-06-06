@@ -40,23 +40,17 @@ http://nodejs.org/download/
 3. package.json 의 dependencies를 설치하기 위해 명령어 실행 : npm install
 
 
+## 사이트 구동에 사용될 계정, 비번 생성
+1. .env.development.sample.php 를 참고해서 현재 환경에 맞게 설정 (.env.development.php)
+2. 환경은 development, testing, prod 세개가 사용됨
+
+
 ## sentry migration
 1. sentry 관련 db migration 명령어 실행 : php artisan migrate --package=cartalyst/sentry
 
 
 ## my-wiki db migration 
 1. my-wiki 관련 db migration 명령어 실행 : php artisan migrate
-
-
-## 이메일 발송에 사용될 계정 id / pw 등록
-1. php.ini 파일의 include_path 경로에 'my-wiki-classified.php' 파일 생성
-2. 아래와 같이 변수 설정
-
-```php
-<?php
-define('MY_WIKI_EMAIL_ACCOUNT', '');
-define('MY_WIKI_EMAIL_PASSWORD','');
-```
 
 ## gulp 실행
 `$ gulp`

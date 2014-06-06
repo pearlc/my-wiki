@@ -105,8 +105,3 @@ App::before(function()
 
         View::share('currentNavBarItem', $currentNavBarItem);
     });
-
-App::before(function()
-    {
-        require_once('my-wiki-classified.php');
-    });

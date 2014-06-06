@@ -9,3 +9,6 @@ Thumbs.db
 .idea
 node_modules
 /public/assets/
+.env.development.php
+.env.testing.php
+.env.php

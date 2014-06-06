@@ -81,7 +81,7 @@ return array(
 	|
 	*/
 
-	'username' => MY_WIKI_EMAIL_ACCOUNT,
+	'username' => getenv('EMAIL_ACCOUNT'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return array(
 	|
 	*/
 
-	'password' => MY_WIKI_EMAIL_PASSWORD,
+	'password' => getenv('EMAIL_PASSWORD'),
 
 	/*
 	|--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "gulp": "^3.6.2",
+    "gulp": "^3.7.0",
     "gulp-autoprefixer": "0.0.7",
     "gulp-changed": "~0.3.0",
     "gulp-coffee": "~1.4.2",

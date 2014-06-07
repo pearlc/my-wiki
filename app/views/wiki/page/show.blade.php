@@ -12,8 +12,9 @@
     <span>{{ link_to_route('wiki.page.history', '편집 이력', ['title' => $page['title']]) }}</span>
 </p>
 
+<hr>
 <p>
-    {{ $revision['text'] }}
+    {{ $text }}
 </p>
 
 @stop

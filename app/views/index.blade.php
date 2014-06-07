@@ -17,6 +17,7 @@
     <li>---</li>
     <li>{{ link_to_route('wiki', '위키'); }}</li>
     <li>{{ link_to_route('wiki.page.create', '위키 글쓰기'); }}</li>
+    <li>{{ link_to_route('wiki.page.recent', '최근 편집 문서'); }}</li>
 </ul>
 
 @stop

@@ -1,6 +1,7 @@
 <?php
 
 use \mywiki\PageHandler;
+use \mywiki\WikiPageRenderer;
 
 class WikiPageController extends \BaseController {
 
@@ -73,12 +74,14 @@ class WikiPageController extends \BaseController {
 
         $page = Page::with('latest_revision')->where('title', $title)->first();
 
+        $wikiPageRenderer = new WikiPageRenderer($page);
+        $wikiPageRenderer->render();
+
         if ($page === null) {
             // TODO : 문서 이름이 바뀌어서 올바른 article을 찾지 못한 경우에는 별도의 메시지 뿌려줘야함 (예 : '문서의 경로가 변경되었을수 있습니다.' 하고 예상 문서 추천) -> 근데 보통 문서 일므을 바꾸면 포워딩을 할텐데.. 포워딩 안되도록 급격하게 문서 이름을 바꿔야 하는 경우가 있나?
             return Redirect::route('wiki.page.search', ['keyword' => $title]);
         }
-
-        return View::make('wiki.page.show', ['page' => $page, 'revision' => $page->latest_revision]);
+        return View::make('wiki.page.show', ['page' => $page, 'revision' => $page->latest_revision, 'text' => $wikiPageRenderer->getHtml()]);
 	}
 
 
@@ -163,8 +166,9 @@ class WikiPageController extends \BaseController {
 
     public function recent()
     {
-        // TODO : 페이징
-        return View::make('wiki.page.recent');
+        $pageChanges = PageChange::with('page')->orderBy('created_at', 'dest')->paginate(5);
+
+        return View::make('wiki.page.recent', ['pageChanges' => $pageChanges]);
     }
 
     public function history($title)

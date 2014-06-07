@@ -187,7 +187,7 @@ class PageHandler {
         $pageChange->bot = '';  // TODO : 미구현
         $pageChange->type = PageChange::PC_NEW;
         $pageChange->ip = $ip;
-        $pageChange->old_bytes = $newRevision->bytes;
+        $pageChange->old_bytes = $oldRevision->bytes;
         $pageChange->new_bytes = $bytes;
         $pageChange->deleted = 0;
         $pageChange->save();

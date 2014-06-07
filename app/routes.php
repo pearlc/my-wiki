@@ -48,6 +48,7 @@ Route::group(array('prefix' => 'wiki'), function() {
     Route::get('page/search', ['as' => 'wiki.page.search', 'uses' => 'WikiPageController@search']);
     Route::get('page/recent', ['as' => 'wiki.page.recent', 'uses' => 'WikiPageController@recent']);
     Route::get('page/history/{title}', ['as' => 'wiki.page.history', 'uses' => 'WikiPageController@history']);
+    Route::get('page/old/{id}', ['as' => 'wiki.page.old', 'uses' => 'WikiPageController@old']);
     Route::resource('page', 'WikiPageController');
 
 });

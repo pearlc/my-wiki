@@ -26,10 +26,16 @@ class WikiPageController extends \BaseController {
 	 */
 	public function create()
 	{
-        $title = Page::sanitizeForTitle(Input::get('title'));
+        $title = Input::get('title');
 
-        if ($title === null || $title === '') {
-            return Redirect::route('wiki.page.recent');
+        $isValidTitle = Page::isValidForTitle($title);
+
+        if (!$isValidTitle) {
+            // TODO : '제목에 허용되지 않은 문자가 포함되어 있다' 라는 오류 메시지가 출력해야함
+            return View::make('errors.message', [
+                'title' => '잘못된 제목',
+                'content' => '잘못된 문서 제목입니다. 사용할 수 없는 문자를 사용했을 수 있습니다.',
+            ]);
         }
 
         return View::make('wiki.page.create', ['title' => $title]);
@@ -65,22 +71,20 @@ class WikiPageController extends \BaseController {
 	 */
 	public function show($title)
 	{
-        // TODO : sanitizeForTitle 쓰는 부분이 많은데, '유효성 검사' 후 '유효하지 않으면 redirect' 까지 함수로 빼도 될듯
-        $title = Page::sanitizeForTitle($title);
-
-        if ($title === null || $title === '') {
-            return Redirect::route('wiki.page.recent');
+        if (!Page::isValidForTitle($title)) {
+            App::abort(404);
         }
 
         $page = Page::with('latest_revision')->where('title', $title)->first();
-
-        $wikiPageRenderer = new WikiPageRenderer($page);
-        $wikiPageRenderer->render();
 
         if ($page === null) {
             // TODO : 문서 이름이 바뀌어서 올바른 article을 찾지 못한 경우에는 별도의 메시지 뿌려줘야함 (예 : '문서의 경로가 변경되었을수 있습니다.' 하고 예상 문서 추천) -> 근데 보통 문서 일므을 바꾸면 포워딩을 할텐데.. 포워딩 안되도록 급격하게 문서 이름을 바꿔야 하는 경우가 있나?
             return Redirect::route('wiki.page.search', ['keyword' => $title]);
         }
+
+        $wikiPageRenderer = new WikiPageRenderer($page);
+        $wikiPageRenderer->render();
+
         return View::make('wiki.page.show', ['page' => $page, 'revision' => $page->latest_revision, 'text' => $wikiPageRenderer->getHtml()]);
 	}
 
@@ -93,17 +97,15 @@ class WikiPageController extends \BaseController {
 	 */
 	public function edit($title)
 	{
-        $title = Page::sanitizeForTitle($title);
-
-        if ($title === null || $title === '') {
-            return Redirect::route('wiki.page.recent');
+        if (!Page::isValidForTitle($title)) {
+            App::abort(404);
         }
 
         $page = Page::with('latest_revision')->where('title', $title)->first();
 
         if ($page === null) {
-            echo 'hi';exit;
-            return Redirect::route('wiki.page.search', ['keyword' => $title]);
+            // TODO : '보고 있는 도중에 누군가가 제목을 변경했을수도 있다'는 메시지 출력해야함
+            App::abort(404);
         }
 
         return View::make('wiki.page.edit', ['page' => $page, 'revision' => $page->latest_revision]);
@@ -173,18 +175,15 @@ class WikiPageController extends \BaseController {
 
     public function history($title)
     {
-        // TODO : sanitizeForTitle 쓰는 부분이 많은데, '유효성 검사' 후 '유효하지 않으면 redirect' 까지 함수로 빼도 될듯
-        $title = Page::sanitizeForTitle($title);
-
-        if ($title === null || $title === '') {
-            return Redirect::route('wiki.page.recent');
+        if (!Page::isValidForTitle($title)) {
+            App::abort(404);
         }
 
         $page = Page::where('title', $title)->first();
 
         if ($page === null) {
             // TODO : 문서 이름이 바뀌어서 올바른 article을 찾지 못한 경우에는 별도의 메시지 뿌려줘야함 (예 : '문서의 경로가 변경되었을수 있습니다.' 하고 예상 문서 추천) -> 근데 보통 문서 이름을 바꾸면 포워딩을 할텐데.. 포워딩 안되도록 급격하게 문서 이름을 바꿔야 하는 경우가 있나?
-            return Redirect::route('wiki.page.search', ['keyword' => $title]);
+            App::abort(404);
         }
 
         $revisions = Revision::with('user')->where('page_id', $page->id)->get();

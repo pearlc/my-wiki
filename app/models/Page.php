@@ -6,6 +6,7 @@
  * Time: 오전 1:28
  */
 
+use mywiki\PageTitleValidator;
 
 class Page extends Eloquent {
 
@@ -88,6 +89,15 @@ class Page extends Eloquent {
     public static function sanitizeForTitle($title)
     {
         return $title;
+    }
+
+    /**
+     * TODO : 이거 있으면 sanitizeForTile 이 필요 없을듯
+     * @param $title
+     */
+    public static function isValidForTitle($title)
+    {
+        return PageTitleValidator::validate($title);
     }
 
     public static function isValidForCreation($input)

@@ -29,6 +29,11 @@ class WikiPageRenderer {
         $this->text = $this->page->latest_revision->text;
     }
 
+
+    /**
+     * text 내에 있는 '내부 링크' 들을 a 태그로 변경
+     * @return mixed|string
+     */
     public function internalLink()
     {
 
@@ -43,28 +48,54 @@ class WikiPageRenderer {
          */
 
         $text = $this->text;
+        $placeHolders = [];
 
-        while(true) {
+        // 제목들 추출
+        while (true) {
+            $substr = $this->extract('[[', ']]', $text, 0, true);
 
-            $title = $this->extract('[[', ']]', $text, false);
+            $titleCandidate = trim(ltrim(rtrim($substr, ']]'), '[['));
 
-            if ($title === false) {
+            if ($substr === false) {
                 break;
             }
 
-            // todo : 존재하지 않는 문서일 경우 style 다르게 처리
-            $linkHtml = link_to_route('wiki.page.show', $title, [$title]);
+            $placeHolder = microtime();
 
-            // todo : [[ 와 제목 사이에 빈칸이 있는 경우 해결
-            $text = str_replace('[[' . $title . ']]', $linkHtml, $text);
+            $text = str_replace($substr, $placeHolder, $text);
+
+            $placeHolders[$placeHolder] = [
+                'rawstring' => $substr,
+                'titleCandidate' => $titleCandidate,
+                'stringToReplace' => false,
+            ];
+        }
+
+        // 각각에 대해 유효한 제목인지 확인
+        foreach($placeHolders as $k => $v) {
+            $titleCandidate = $v['titleCandidate'];
+
+            if (Page::isValidForTitle($titleCandidate)) {
+                $stringToReplace = link_to_route('wiki.page.show', $titleCandidate, [$titleCandidate]);
+                $placeHolders[$k]['stringToReplace'] = $stringToReplace;
+            }
+        }
+
+        // 실제 링크 치환
+        foreach($placeHolders as $k => $v) {
+            if ($v['stringToReplace'] !== false) {
+                $text = str_replace($k, $v['stringToReplace'], $text);
+            } else {
+                $text = str_replace($k, $v['rawstring'], $text);
+            }
         }
 
         return $text;
     }
 
-    private function extract($pointer1, $pointer2, $haystack, $signInlcude = false)
+    private function extract($pointer1, $pointer2, $haystack, $offset = 0, $signInlcude = false)
     {
-        $p1 = strpos($haystack, $pointer1);
+        $p1 = strpos($haystack, $pointer1, $offset);
         $str = false;
 
         if ($p1 !== false) {

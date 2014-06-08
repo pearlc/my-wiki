@@ -105,3 +105,8 @@ App::before(function()
 
         View::share('currentNavBarItem', $currentNavBarItem);
     });
+
+App::missing(function($exception)
+{
+    return Response::view('errors.missing', array(), 404);
+});

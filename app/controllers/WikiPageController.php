@@ -122,6 +122,8 @@ class WikiPageController extends \BaseController {
 	{
         $input = Input::get();
 
+        // todo : input 값 유효한지 확인 해야하지 않을까? store 함수랑 어떤게 달라야 하는지 생각해볼것
+
         $pageHandler = new PageHandler();
 
         $page = $pageHandler->updatePageWithInput($input);

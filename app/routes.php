@@ -49,7 +49,8 @@ Route::group(array('prefix' => 'wiki'), function() {
     Route::get('page/recent', ['as' => 'wiki.page.recent', 'uses' => 'WikiPageController@recent']);
     Route::get('page/history/{title}', ['as' => 'wiki.page.history', 'uses' => 'WikiPageController@history']);
     Route::get('page/old/{id}', ['as' => 'wiki.page.old', 'uses' => 'WikiPageController@old']);
-    Route::resource('page', 'WikiPageController');
+    Route::get('page/show/{page}', ['as' => 'wiki.page.show', 'uses' => 'WikiPageController@show']);    // 'search', 'recent' 등 라우팅에 사용되는 문자열과 문서제목간의 충돌을 없애기 위해 show 라우팅을 재정의
+    Route::resource('page', 'WikiPageController', ['except' => ['show']]);
 
 });
 

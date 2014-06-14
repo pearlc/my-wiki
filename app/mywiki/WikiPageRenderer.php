@@ -49,15 +49,44 @@ class WikiPageRenderer {
 
         $text = $this->text;
         $placeHolders = [];
+        $offset = 0;
 
-        // 제목들 추출
+        // 제목들 추출 :
         while (true) {
-            $substr = $this->extract('[[', ']]', $text, 0, true);
+
+            $substr = $this->extract('[[', ']]', $text, $offset, true);
 
             $titleCandidate = trim(ltrim(rtrim($substr, ']]'), '[['));
 
             if ($substr === false) {
                 break;
+            }
+
+            /**
+             * 제목 후보에는 개행을 나타내는 문자가 포함되면 안됨. -> 일반 위키에는 <br/>, wiysiwyg 에는 </p>
+             * 이런 글자가 포함된다면, 첫번째 표식인 '[[' 직후부터 다시 탐색 시작.
+             */
+            if (strpos($titleCandidate, '</p>', 0) !== false) {
+                $offset += 2;
+//                echo $offset;exit;
+                continue;
+            }
+
+
+            $titleCandidate = $this->washingTitle($titleCandidate);
+
+            /**
+             * 또한 [[ 틀린 링크 ], [[ 맞는 링크 ]] 와 같은 경우도 처리해야함
+             */
+
+            if (!$this->isValid($titleCandidate)) {
+
+                // 유효한 제목이 아닌 경우
+                $offset += 2;
+                continue;
+
+            } else {
+                $stringToReplace = link_to_route('wiki.page.show', $titleCandidate, [$titleCandidate]);
             }
 
             $placeHolder = microtime();
@@ -67,18 +96,10 @@ class WikiPageRenderer {
             $placeHolders[$placeHolder] = [
                 'rawstring' => $substr,
                 'titleCandidate' => $titleCandidate,
-                'stringToReplace' => false,
+                'stringToReplace' => $stringToReplace,
             ];
-        }
 
-        // 각각에 대해 유효한 제목인지 확인
-        foreach($placeHolders as $k => $v) {
-            $titleCandidate = $v['titleCandidate'];
-
-            if (Page::isValidForTitle($titleCandidate)) {
-                $stringToReplace = link_to_route('wiki.page.show', $titleCandidate, [$titleCandidate]);
-                $placeHolders[$k]['stringToReplace'] = $stringToReplace;
-            }
+            $offset = strpos($text, $placeHolder, $offset);
         }
 
         // 실제 링크 치환
@@ -90,7 +111,21 @@ class WikiPageRenderer {
             }
         }
 
-        return $text;
+        $this->text = $text;
+    }
+
+    private function washingTitle($titleCandidate)
+    {
+        // TODO : 작은 따옴표, 큰 따옴표 문제 없는지 확인, 논리적으로 이상 없는지도 확인
+        $titleCandidate = str_replace('&gt;', '>', $titleCandidate);
+        $titleCandidate = str_replace('&lt;', '<', $titleCandidate);
+        $titleCandidate = str_replace('&#39;', "'", $titleCandidate);
+        return $titleCandidate;
+    }
+
+    private function isValid($titleCandidate)
+    {
+        return Page::isValidForTitle($titleCandidate);
     }
 
     private function extract($pointer1, $pointer2, $haystack, $offset = 0, $signInlcude = false)
@@ -115,7 +150,8 @@ class WikiPageRenderer {
 
     public function render()
     {
-        $this->html = $this->internalLink();
+        $this->internalLink();
+        $this->html = $this->text;
     }
 
     public function getHtml()

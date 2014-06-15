@@ -188,4 +188,11 @@ return array(
         'Sentry'          => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 	),
 
+
+    /*
+     *
+     * Laravel 4.2 되면서 추가
+     */
+    'cipher' => MCRYPT_RIJNDAEL_256,
+
 );

@@ -1,7 +1,7 @@
 @extends('layouts.layouts')
 
 @section('scripts')
-{{ HTML::script('/assets/ckeditor/ckeditor.js') }}
+{{ HTML::script('//cdn.ckeditor.com/4.4.1/full/ckeditor.js') }}
 @stop
 
 @section('main')

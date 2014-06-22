@@ -8,6 +8,10 @@ class PageTitleValidator
 {
     static public function validate($title)
     {
+        if (trim($title) === "") {
+            return false;
+        }
+
         if (!self::isContainRestrictedCharacter($title)) {
             return false;
         }

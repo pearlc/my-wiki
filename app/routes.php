@@ -43,6 +43,9 @@ Route::get('/markuptest/editor', array('as' => 'markuptest_editor', 'uses' => 'M
 
 // Wiki
 Route::group(array('prefix' => 'wiki'), function() {
+
+    // TODO : page/show/{page} 라우팅 처럼 길게 만들필요 없이 그냥 '/' 를 각 페이지로 연결하고, 위키 메인에 대한 route를 '/main' 이런식으로 하면 더 깔끔할듯
+
     Route::get('/', array('as' => 'wiki', 'uses' => 'WikiController@index'));
 
     Route::get('page/search', ['as' => 'wiki.page.search', 'uses' => 'WikiPageController@search']);

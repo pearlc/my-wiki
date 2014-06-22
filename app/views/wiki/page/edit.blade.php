@@ -28,7 +28,12 @@
     {{ Form::submit('수정', ['id' => 'submit', 'class' => 'btn btn-default', 'id' => 'submit']); }}
 </div>
 <script>
-    CKEDITOR.replace( 'text' );
+//    CKEDITOR.replace( 'text' );
+
+    CKEDITOR.replace( 'text', {
+        filebrowserBrowseUrl: '/browser/browse.php',
+        filebrowserUploadUrl: '/uploader/upload.php'
+    });
 </script>
 
 {{ Form::close() }}

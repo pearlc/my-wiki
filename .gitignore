@@ -9,6 +9,7 @@ Thumbs.db
 .idea
 node_modules
 /public/assets/
+/public/uploads/
 .env.development.php
 .env.testing.php
 .env.php

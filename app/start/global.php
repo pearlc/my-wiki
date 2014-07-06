@@ -83,9 +83,7 @@ require app_path().'/filters.php';
 
 App::before(function()
     {
-        /**
-         * 모든 request에 대해 user login 확인
-         */
+        // 뷰에서 항상 user에 접근하기 위함 (gnb에서 매번 뿌려줘야 하므로)
         $user = Sentry::getUser();
         View::share('user', $user);
     });

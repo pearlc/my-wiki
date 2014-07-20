@@ -1,7 +1,7 @@
 @extends('layouts.layouts')
 
 @section('scripts')
-{{ HTML::script('//cdn.ckeditor.com/4.4.1/full/ckeditor.js') }}
+{{ HTML::script('/assets/ckeditor/ckeditor.js') }}
 @stop
 
 @section('main')
@@ -28,11 +28,14 @@
     {{ Form::submit('수정', ['id' => 'submit', 'class' => 'btn btn-default', 'id' => 'submit']); }}
 </div>
 <script>
-//    CKEDITOR.replace( 'text' );
-
     CKEDITOR.replace( 'text', {
-        filebrowserBrowseUrl: '/browser/browse.php',
-        filebrowserUploadUrl: '/uploader/upload.php'
+        extraPlugins : 'autogrow',
+        autoGrow_onStartup: true,
+        //filebrowserBrowseUrl: '/browser/browse.php',
+        filebrowserUploadUrl: '{{ route("ckeditor.fileUpload"); }}',
+        //width: '100px',
+        //height: '1000px',
+        maxheight: '1000px'
     });
 </script>
 

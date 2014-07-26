@@ -2,7 +2,7 @@
 
 @section('main')
 
-<h1>Login</h1>
+<h1>로그인</h1>
 
 <!-- TODO : 이메일 틀렸을때와 비번 틀렸을때의 오류메시지를 다르게 처리할것인가? -->
 
@@ -25,8 +25,7 @@
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
-            {{ Form::label('remember', '자동 로그인'); }}
-            {{ Form::checkbox('remember', null, null, array('id' => 'remember')); }}
+            {{ Form::labelWithCheckbox('자동 로그인', null, null, null, [], ['id' => 'remember']); }}
         </div>
     </div>
 </div>

@@ -10,6 +10,9 @@
 {{ $errors->first('password'); }}
 
 {{ Form::open(array('action' => 'UserController@loginPost', 'class' => 'form-horizontal')) }}
+
+{{ Form::hidden('returnUrl', link_to('/')) }}
+
 <div class="form-group">
     {{ Form::label('inputEmail', '이메일', array('class' => 'col-sm-2 control-label')); }}
     <div class="col-sm-10">

@@ -35,13 +35,12 @@
                     {{ Form::text('keyword', null, ['class' => 'form-control', 'placeholder' => '검색어를 입력하세요']); }}
                 </div>
                 {{ Form::button('검색', ['type' => 'submit', 'class' => 'btn btn-default']); }}
-<!--                <button type="submit" class="btn btn-default">Submit</button>-->
-<!--            </form>-->
             {{ Form::close(); }}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">문의하기</a></li>
                 @if (is_null($user))
-                    <li>{{ link_to_route('user_login', '로그인') }}</li>
+<!--                    <li>{{ link_to_route('user_login', '로그인') }}</li>-->
+                    <li data-toggle="modal" data-target="#login-modal"><a href="#">로그인</a></li>
                     <li>{{ link_to_route('user_register', '회원가입') }}</li>
                 @else
                     <li class="dropdown">

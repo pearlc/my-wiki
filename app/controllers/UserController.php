@@ -211,6 +211,11 @@ class UserController extends BaseController
             return Redirect::route('user_login')->withInput();
         }
 
+        // TODO : returnUrl 안전한 url 체크 필요
+        if (isset($input['returnUrl'])) {
+            return Redirect::to($input['returnUrl']);
+        }
+
         return Redirect::route('index');
     }
 

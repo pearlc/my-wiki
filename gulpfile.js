@@ -23,8 +23,8 @@ var less = require('gulp-less');
 var minify = require('gulp-minify-css');
 
 var srcPath = {
-    css: ['app/assets/bootstrap-3.1.1/dist/css/bootstrap.min.css', 'app/assets/themes/slate/bootstrap.css', 'app/assets/css/**/*.css'],
-    scripts: ['app/assets/js/**/*.js', 'app/assets/bootstrap-3.1.1/dist/js/bootstrap.min.js'],
+    css: ['app/assets/bootstrap-3.2.0/dist/css/bootstrap.min.css', 'app/assets/themes/slate/bootstrap.css', 'app/assets/css/**/*.css'],
+    scripts: ['app/assets/js/**/*.js', 'app/assets/bootstrap-3.2.0/dist/js/bootstrap.min.js'],
     ckeditor: 'app/assets/ckeditor-4.4.2/**/*.*',
     jshint: 'app/assets/js/**/*.js',
     images: 'app/assets/images/**/*',

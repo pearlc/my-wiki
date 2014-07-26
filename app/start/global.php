@@ -81,6 +81,12 @@ App::down(function()
 require app_path().'/filters.php';
 
 
+/*
+ * Custom Macros
+ */
+require app_path().'/macros.php';
+
+
 App::before(function()
     {
         // 뷰에서 항상 user에 접근하기 위함 (gnb에서 매번 뿌려줘야 하므로)

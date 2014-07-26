@@ -12,7 +12,19 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 
-
+/**
+ * 파일 업로드 helper 클래스
+ *
+ *
+ * TODO : 모든 오류는 예외를 던지는 방식으로 처리할것
+ *
+ * 아래 코드를 참고해서 만듬
+ * http://www.paulfp.net/blog/2010/10/how-to-add-and-upload-an-image-using-ckeditor/
+ * http://maxoffsky.com/code-blog/uploading-files-in-laravel-4/
+ *
+ * Class FileUploader
+ * @package mywiki\Services
+ */
 class FileUploader {
 
     private $filters = null;
@@ -24,16 +36,12 @@ class FileUploader {
     }
 
     /**
-     * TODO : FileUploader 의 기능적인 책임은 어디까지인가?
-     * 디렉토리 지정도 가능? 파일명 rename? 이런것들도 포함을 시켜야 하는가? <- 해당 부분이 공통적으로 사용될것 같다면 그러는게 맞을듯
-     * 고민한 결과 : single responsibility 원칙에 의해, 디렉토리 지정 안함. 다만 파일명이 겹치는 경우에는 뒤에 (1) 형식으로 충돌 방지.
+     * 업로드경로와 파일 이름을 받아서 해당 위치에 업로드 한뒤, 접근 가능한 url을 리턴.
+     * 이미 해당 경로/이름에 파일이 존재하는 경우에는 이름 뒤에 넘버링을 한뒤 업로드 진행 (예. name.jpg -> name 1.jpg
      *
-     *
-     * TODO : 모든 오류는 예외를 던지는 방식으로 처리할것
-     *
-     * 아래 코드를 참고해서 만듬
-     * http://www.paulfp.net/blog/2010/10/how-to-add-and-upload-an-image-using-ckeditor/
-     * http://maxoffsky.com/code-blog/uploading-files-in-laravel-4/
+     * @param $destinationPath
+     * @param $filename
+     * @return url|bool
      */
     public function upload($destinationPath, $filename) {
 
@@ -82,8 +90,6 @@ class FileUploader {
          *
          */
         $resetMagicNumber = 1000;
-
-
 
         if ( ! File::exists($destinationPath . '/' . $filename) ) {
             return $filename;

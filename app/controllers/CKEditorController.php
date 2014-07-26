@@ -19,10 +19,7 @@ class CKEditorController extends BaseController
         if ($user) {
 
             try {
-
-                // TODO : 현재는 이름을 클라이언트에서의 의름 그대로 쓰기 때문에 이름 충돌나는 경우에 대해 에러 처리 해야함 (걍 새로운 파일 제일 뒤에 (1) 같은 넘버링 하면 될듯)
                 $file = Input::file('upload');
-
                 $validator = new \mywiki\Services\FileUploadValidator($file, [
                     'mimetype' => [
                         'image/gif',
@@ -36,7 +33,6 @@ class CKEditorController extends BaseController
                         'png',
                     ],
                     'maxsize' => 1*1024*1024,   // 1MB
-                    //'maxsize' => 150*1024,   // 150KB
                 ]);
 
                 if ($validator->fails()) {
@@ -54,13 +50,13 @@ class CKEditorController extends BaseController
                         // 업로드 실패 (파일 이름이 올바르지 않음)
 
                         // Do something
+                        $message = '파일 이름이 올바르지 않습니다.';
                     }
                 }
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 $message = '알수 없는 사용자입니다.';  // autologin 기능 켜진 상태에서 유저가 삭제됬을 경우에 이 예외 발생
             } catch (Exception $e) {
-                print_r($e);
-//                $message = '알수 없는 오류가 발생했습니다.';
+                $message = '알수 없는 오류가 발생했습니다.';
             }
 
         } else {

@@ -182,7 +182,7 @@ class UserController extends BaseController
             );
 
             // Try to authenticate the user
-            $user = Sentry::authenticate($credentials, false);
+            $user = Sentry::authenticate($credentials, $remember);
 
             $authenticated = true;
         }
